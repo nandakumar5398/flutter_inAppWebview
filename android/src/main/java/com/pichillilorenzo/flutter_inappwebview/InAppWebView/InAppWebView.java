@@ -79,6 +79,11 @@ import okhttp3.OkHttpClient;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.pichillilorenzo.flutter_inappwebview.InAppWebView.PreferredContentModeOptionType.fromValue;
 
+//Added this one
+import androidx.webkit.WebSettingsCompat;
+import android.content.res.Configuration;
+
+
 final public class InAppWebView extends InputAwareWebView {
 
   static final String LOG_TAG = "InAppWebView";
@@ -671,10 +676,22 @@ final public class InAppWebView extends InputAwareWebView {
       WebViewCompat.setWebViewRenderProcessClient(this, inAppWebViewRenderProcessClient);
     }
 
+
+    WebSettings settings = getSettings();
+
+    int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+    if(nightModeFlags == Configuration.UI_MODE_NIGHT_YES){
+      if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)){
+        Log.w("InAppWebView", "FORCE_DARK_STRATEGY supported");
+        WebSettingsCompat.setForceDarkStrategy(settings, WebSettingsCompat.DARK_STRATEGY_WEB_THEME_DARKENING_ONLY);
+      }
+    }
+
     if (options.useOnDownloadStart)
       setDownloadListener(new DownloadStartListener());
 
-    WebSettings settings = getSettings();
+
 
     settings.setJavaScriptEnabled(options.javaScriptEnabled);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
