@@ -683,8 +683,8 @@ final public class InAppWebView extends InputAwareWebView {
 
     if(nightModeFlags == Configuration.UI_MODE_NIGHT_YES){
       if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)){
-        Log.w("InAppWebView", "FORCE_DARK_STRATEGY supported");
-        WebSettingsCompat.setForceDarkStrategy(settings, WebSettingsCompat.DARK_STRATEGY_WEB_THEME_DARKENING_ONLY);
+        Log.w("InAppWebView", "setForceDark supported");
+        WebSettingsCompat.setForceDark(settings, WebSettingsCompat.FORCE_DARK_ON);
       }
     }
 
